@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ms_MaterialScrolling">
+        <attr name="ms_flexible_height" format="dimension"/>
+        <attr name="ms_base_height" format="dimension"/>
+    </declare-styleable>
+</resources>
