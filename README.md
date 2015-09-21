@@ -87,6 +87,18 @@ And PagerAdapter must imptelement `MaterialScrollingViewPager.ContainRecyclerVie
 
 And call `MaterialScrollingViewPager.addBehavior(View, Behavior)` in Activity or Fragment.
 
+# Gradle
+
+```groovy
+repositories {
+    jcenter()
+}
+dependencies {
+    compile 'jp.satorufujiwara:material-scrolling:1.0.0'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.5.2'
+}
+```
+
 # Dependencies
 
 * Library
