@@ -1,17 +1,20 @@
 package jp.satorufujiwara.scrolling;
 
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 public class MaterialScrollingLayout extends FrameLayout {
 
-//    private final RecyclerViewHolder manager;
+    private final int flexibleHeight;
+    private final int baseHeight;
+    private final BehaviorDispatcher behaviorDispatcher;
+    private RecyclerViewHolder recyclerViewHolder;
 
     public MaterialScrollingLayout(Context context) {
         this(context, null, 0);
@@ -23,79 +26,69 @@ public class MaterialScrollingLayout extends FrameLayout {
 
     public MaterialScrollingLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
         int flexibleHeight = 0;
+        int baseHeight = 0;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ms_MaterialScrolling);
         flexibleHeight = a.getDimensionPixelSize(
                 R.styleable.ms_MaterialScrolling_ms_flexible_height, flexibleHeight);
+        baseHeight = a.getDimensionPixelSize(
+                R.styleable.ms_MaterialScrolling_ms_base_height, baseHeight);
         a.recycle();
-//        manager = new RecyclerViewHolder(flexibleHeight);
-    }
-
-//    public void addBehavior(View target, Behavior behavior) {
-//        manager.addBehavior(target, behavior);
-//    }
-
-    public void setRecyclerView(final RecyclerView recyclerView) {
-//        if (manager.getActiveRecyclerView() != null) {
-//            throw new IllegalArgumentException(
-//                    "MaterialScrollingLayout can't have multiple RecyclerView.");
-//        }
-//        manager.addRecyclerView(recyclerView);
-//        manager.setRecyclerView(recyclerView);
+        this.flexibleHeight = flexibleHeight;
+        this.baseHeight = baseHeight;
+        behaviorDispatcher = new BehaviorDispatcher(flexibleHeight);
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-//        manager.onAttachedToWindow(this);
+        behaviorDispatcher.onAttachedToWindow(this);
     }
 
     @Override
     protected void onDetachedFromWindow() {
+        behaviorDispatcher.onDetachedFromWindow(this);
         super.onDetachedFromWindow();
-//        manager.onDetachedFromWindow(this);
     }
-//
-//    @Override
-//    protected Parcelable onSaveInstanceState() {
-//        return new SavedState(super.onSaveInstanceState(), manager.onSaveInstanceState());
-//    }
-//
-//    @Override
-//    protected void onRestoreInstanceState(Parcelable state) {
-//        final SavedState savedState = (SavedState) state;
-//        super.onRestoreInstanceState(savedState.getSuperState());
-//        manager.onRestoreInstanceState(savedState.scrollingState);
-//    }
 
-    protected static class SavedState extends BaseSavedState {
+    @Override
+    public void addView(View child, int index, ViewGroup.LayoutParams params) {
+        super.addView(child, index, params);
+        ObservableRecyclerView recyclerView = findRecyclerView(child);
+        if (recyclerView == null) {
+            return;
+        }
+        recyclerViewHolder = new RecyclerViewHolder(flexibleHeight, recyclerView,
+                behaviorDispatcher);
+        recyclerViewHolder.setIsDispatchScroll(true);
+    }
 
-        Parcelable scrollingState;
-        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
-            public SavedState createFromParcel(Parcel source) {
-                return new SavedState(source);
+    @Override
+    public void removeView(View view) {
+        recyclerViewHolder.setIsDispatchScroll(false);
+        recyclerViewHolder = null;
+        super.removeView(view);
+    }
+
+    public void addBehavior(View target, Behavior behavior) {
+        behaviorDispatcher.addBehavior(target, behavior);
+    }
+
+    private ObservableRecyclerView findRecyclerView(final View view) {
+        if (view instanceof ObservableRecyclerView) {
+            return (ObservableRecyclerView) view;
+        }
+        if (!(view instanceof ViewGroup)) {
+            return null;
+        }
+        ViewGroup group = (ViewGroup) view;
+        int count = group.getChildCount();
+        for (int i = 0; i < count; i++) {
+            ObservableRecyclerView child = findRecyclerView(group.getChildAt(i));
+            if (child != null) {
+                return child;
             }
-
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
-
-        public SavedState(Parcel source) {
-            super(source);
-            scrollingState = source
-                    .readParcelable(MaterialScrollingLayout.class.getClassLoader());
         }
-
-        public SavedState(Parcelable superState, Parcelable scrollingState) {
-            super(superState);
-            this.scrollingState = scrollingState;
-        }
-
-        public void writeToParcel(@NonNull Parcel dest, int flags) {
-            super.writeToParcel(dest, flags);
-            dest.writeParcelable(scrollingState, flags);
-        }
+        return null;
     }
 }

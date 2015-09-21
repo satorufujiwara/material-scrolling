@@ -21,6 +21,7 @@ public class MaterialScrollingViewPager extends ViewPager {
     private final Map<ObservableRecyclerView, RecyclerViewHolder> holders = new ArrayMap<>();
     private final BehaviorDispatcher behaviorDispatcher;
     private RecyclerViewHolder activeHolder;
+    private boolean isFirstRecyclerView = true;
 
     private final OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
         @Override
@@ -61,8 +62,6 @@ public class MaterialScrollingViewPager extends ViewPager {
             }
         }
     };
-
-    private boolean isFirstRecyclerView = true;
 
     public MaterialScrollingViewPager(Context context) {
         this(context, null);
