@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Scrolling Sample</string>
+
+    <string name="hello_world">Hello world!</string>
+
+    <string name="action_search">Search</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="main_activity_toolbar"></string>
+
+    <string name="tab1">NEXUS</string>
+    <string name="tab2">XPERIA</string>
+    <string name="tab3">GALAXY</string>
+    <string name="tab4">AQUOS</string>
+    <string name="tab5">MOTO</string>
+</resources>

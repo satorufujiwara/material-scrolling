@@ -1,0 +1,60 @@
+<jp.satorufujiwara.scrolling.MaterialScrollingLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/materialScrollingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:ms_flexible_height="240dp"
+        >
+
+    <ImageView
+            android:id="@+id/bgImage"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_image"
+            />
+
+    <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    <View
+            android:id="@+id/overlayView"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            />
+
+    <TextView android:id="@+id/titleText"
+              android:layout_width="match_parent"
+              android:layout_height="56dp"
+              android:layout_marginTop="@dimen/title_scroll_height"
+              android:gravity="center_vertical"
+              android:paddingLeft="62dp"
+              android:paddingRight="16dp"
+              android:textColor="@color/white"
+              android:textSize="24dp"
+            />
+    
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="212dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="24dp"
+            />
+
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            />
+
+</jp.satorufujiwara.scrolling.MaterialScrollingLayout>
+
+

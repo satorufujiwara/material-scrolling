@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    buildToolsVersion BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        applicationId "jp.satorufujiwara.scrolling.sample"
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as int
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':library')
+    compile 'com.github.ksoichiro:android-observablescrollview:1.5.2'
+
+    compile "com.android.support:appcompat-v7:$SUPPORT_APP_COMPAT_VERSION"
+    compile "com.android.support:design:$SUPPORT_APP_COMPAT_VERSION"
+    compile "com.android.support:recyclerview-v7:$SUPPORT_APP_COMPAT_VERSION"
+    compile "com.android.support:cardview-v7:$SUPPORT_APP_COMPAT_VERSION"
+
+    compile 'jp.satorufujiwara:recyclerview-binder:1.2.0'
+    compile 'com.ogaclejapan.smarttablayout:library:1.2.0@aar'
+    compile 'com.jakewharton:butterknife:6.1.0'
+}
