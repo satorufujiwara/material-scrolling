@@ -5,9 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import jp.satorufujiwara.binder.recycler.RxRecyclerBinder;
+import jp.satorufujiwara.binder.recycler.RecyclerBinder;
 
-public class TextBinder extends RxRecyclerBinder<SampleViewType> {
+public class TextBinder extends RecyclerBinder<SampleViewType> {
 
     private final String text;
     private final View.OnClickListener listener;
