@@ -9,7 +9,6 @@ import jp.satorufujiwara.scrolling.sample.R;
 
 public class TitleBehavior extends Behavior {
 
-
     private final int scrollLimitHeight;
 
     public TitleBehavior(Resources r) {
