@@ -55,7 +55,8 @@ public class MaterialScrollingViewPager extends ViewPager {
                     continue;
                 }
                 final int scrollY = holder.getScrollY();
-                if (activeScrollY >= flexibleHeight - baseHeight && scrollY >= flexibleHeight - baseHeight) {
+                if (activeScrollY >= flexibleHeight - baseHeight
+                        && scrollY >= flexibleHeight - baseHeight) {
                     continue;
                 }
                 holder.scrollTo(Math.min(activeScrollY, flexibleHeight - baseHeight));
@@ -99,11 +100,12 @@ public class MaterialScrollingViewPager extends ViewPager {
     @Override
     public void addView(View child, int index, ViewGroup.LayoutParams params) {
         super.addView(child, index, params);
-        ObservableRecyclerView recyclerView = findRecyclerView(child);
+        ObservableRecyclerView recyclerView = Utils.findRecyclerView(child);
         if (recyclerView == null) {
             return;
         }
-        RecyclerViewHolder holder = new RecyclerViewHolder(flexibleHeight, recyclerView, behaviorDispatcher);
+        RecyclerViewHolder holder = new RecyclerViewHolder(flexibleHeight, recyclerView,
+                behaviorDispatcher);
         if (isFirstRecyclerView) {
             activeHolder = holder;
         }
@@ -136,24 +138,6 @@ public class MaterialScrollingViewPager extends ViewPager {
         final PagerAdapter adapter = getAdapter();
         if (adapter instanceof ContainRecyclerViewPagerAdapter) {
             return ((ContainRecyclerViewPagerAdapter) adapter).getRecyclerView(position);
-        }
-        return null;
-    }
-
-    private ObservableRecyclerView findRecyclerView(final View view) {
-        if (view instanceof ObservableRecyclerView) {
-            return (ObservableRecyclerView) view;
-        }
-        if (!(view instanceof ViewGroup)) {
-            return null;
-        }
-        ViewGroup group = (ViewGroup) view;
-        int count = group.getChildCount();
-        for (int i = 0; i < count; i++) {
-            ObservableRecyclerView child = findRecyclerView(group.getChildAt(i));
-            if (child != null) {
-                return child;
-            }
         }
         return null;
     }

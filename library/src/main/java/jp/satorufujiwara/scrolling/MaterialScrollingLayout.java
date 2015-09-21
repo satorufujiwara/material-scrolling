@@ -54,7 +54,7 @@ public class MaterialScrollingLayout extends FrameLayout {
     @Override
     public void addView(View child, int index, ViewGroup.LayoutParams params) {
         super.addView(child, index, params);
-        ObservableRecyclerView recyclerView = findRecyclerView(child);
+        ObservableRecyclerView recyclerView = Utils.findRecyclerView(child);
         if (recyclerView == null) {
             return;
         }
@@ -72,23 +72,5 @@ public class MaterialScrollingLayout extends FrameLayout {
 
     public void addBehavior(View target, Behavior behavior) {
         behaviorDispatcher.addBehavior(target, behavior);
-    }
-
-    private ObservableRecyclerView findRecyclerView(final View view) {
-        if (view instanceof ObservableRecyclerView) {
-            return (ObservableRecyclerView) view;
-        }
-        if (!(view instanceof ViewGroup)) {
-            return null;
-        }
-        ViewGroup group = (ViewGroup) view;
-        int count = group.getChildCount();
-        for (int i = 0; i < count; i++) {
-            ObservableRecyclerView child = findRecyclerView(group.getChildAt(i));
-            if (child != null) {
-                return child;
-            }
-        }
-        return null;
     }
 }
