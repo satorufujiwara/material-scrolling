@@ -1,6 +1,9 @@
 material-scrolling
 ===
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-material--scrolling-green.svg?style=flat)](https://android-arsenal.com/details/1/2529)
+[![Download](https://api.bintray.com/packages/satorufujiwara/maven/material-scrolling/images/download.svg)](https://bintray.com/satorufujiwara/maven/material-scrolling/_latestVersion)
+
 
 Android library for [material scrolling techniques](http://www.google.com/design/spec/patterns/scrolling-techniques.html).
 
@@ -19,7 +22,7 @@ Android library for [material scrolling techniques](http://www.google.com/design
 
 Layout `ObservableRecyclerView` inside of `MaterialScrollingLayout`.
 
-```
+```xml
 <jp.satorufujiwara.scrolling.MaterialScrollingLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -44,7 +47,7 @@ And call `MaterialScrollingLayout.addBehavior(View, Behavior)` in Activity or Fr
 First argument is target `View`.
 Second argument is `View`'s behavior while scrolling.
 
-```
+```java
 materialScrollingLayout.addBehavior(bgImageView, new ParallaxBehavior());
 materialScrollingLayout.addBehavior(titleTextView, new ScrollingBehavior());
 materialScrollingLayout.addBehavior(fabView, new FabBehavior(getResources()));
@@ -53,7 +56,7 @@ materialScrollingLayout.addBehavior(fabView, new FabBehavior(getResources()));
 `FabBehavior` is customized `Behavior`.
 If you want customize behavior, create class that extends 'Behavior'.
 
-```
+```java
 public class TitleBehavior extends Behavior {
     
     private final int scrollLimitHeight;
@@ -75,7 +78,7 @@ If you want to use with `ViewPager`, use `MaterialViewPager`.
 
 And PagerAdapter must imptelement `MaterialScrollingViewPager.ContainRecyclerViewPagerAdapter`.
 
-```
+```xml
 <jp.satorufujiwara.scrolling.MaterialScrollingViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
