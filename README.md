@@ -102,6 +102,16 @@ dependencies {
 }
 ```
 
+## Developed By
+
+Satoru Fujiwara (satorufujiwara)
+* Twitter [satorufujiwara](https://twitter.com/satorufujiwara)
+* holly.wist@gmail.com
+ 
+Other Projects
+* [recyclerview-binder](https://github.com/satorufujiwara/recyclerview-binder)
+* [lighthttp](https://github.com/satorufujiwara/lighthttp)
+
 # Dependencies
 
 * Library
