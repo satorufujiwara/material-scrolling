@@ -11,11 +11,11 @@ public class ScrollBehavior extends Behavior {
     }
 
     @Override
-    protected void onScrolled(View target, int scrollY, int dy) {
+    protected void onScrolled(final View target, final int scrollY, final int dy) {
         computeTranslation(target, scrollY, dy);
     }
 
-    protected void computeTranslation(View target, int scrollY, int dy) {
+    protected void computeTranslation(final View target, final int scrollY, final int dy) {
         ViewCompat.setTranslationY(target, -Math.min(scrollY, getFlexibleHeight()));
     }
 

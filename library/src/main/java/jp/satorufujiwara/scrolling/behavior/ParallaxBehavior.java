@@ -16,7 +16,7 @@ public class ParallaxBehavior extends ScrollBehavior {
     }
 
     @Override
-    protected void computeTranslation(View target, int scrollY, int y) {
+    protected void computeTranslation(final View target, final int scrollY, final int y) {
         ViewCompat.setTranslationY(target, -scrollY / parallaxRate);
     }
 }

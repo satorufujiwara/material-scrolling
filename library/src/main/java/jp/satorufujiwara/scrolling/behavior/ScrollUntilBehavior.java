@@ -10,21 +10,21 @@ public class ScrollUntilBehavior extends Behavior {
     private final int until;
     private int targetHeight = 0;
 
-    public ScrollUntilBehavior(int until) {
+    public ScrollUntilBehavior(final int until) {
         this.until = until;
     }
 
     @Override
-    protected void onGlobalLayout(View target) {
+    protected void onGlobalLayout(final View target) {
         targetHeight = target.getHeight();
     }
 
     @Override
-    protected void onScrolled(View target, int scrollY, int dy) {
+    protected void onScrolled(final View target, final int scrollY, final int dy) {
         computeTranslation(target, scrollY, dy);
     }
 
-    protected void computeTranslation(View target, int scrollY, int dy) {
+    protected void computeTranslation(final View target, final int scrollY, final int dy) {
         ViewCompat.setTranslationY(target, -Math.min(scrollY, getFlexibleHeight() - targetHeight - until));
     }
 

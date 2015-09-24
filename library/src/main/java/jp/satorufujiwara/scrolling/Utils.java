@@ -1,9 +1,9 @@
 package jp.satorufujiwara.scrolling;
 
-import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
-
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 
 final class Utils {
 
