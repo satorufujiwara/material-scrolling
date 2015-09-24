@@ -110,7 +110,9 @@ Satoru Fujiwara (satorufujiwara)
  
 Other Projects
 * [recyclerview-binder](https://github.com/satorufujiwara/recyclerview-binder)
+ * Android Library for RecyclerView to manage order of items and multiple view types. 
 * [lighthttp](https://github.com/satorufujiwara/lighthttp)
+ * Lightweitht HTTP client for Android 
 
 # Dependencies
 
