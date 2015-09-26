@@ -1,7 +1,5 @@
 package jp.satorufujiwara.scrolling;
 
-import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v4.util.ArrayMap;
@@ -10,6 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 
 import java.util.Map;
 
@@ -25,12 +25,12 @@ public class MaterialScrollingViewPager extends ViewPager {
 
     private final OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
         @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
             // no op
         }
 
         @Override
-        public void onPageSelected(int position) {
+        public void onPageSelected(final int position) {
             final ObservableRecyclerView recyclerView = findRecyclerViewFrom(position);
             if (recyclerView == null) {
                 return;
@@ -44,7 +44,7 @@ public class MaterialScrollingViewPager extends ViewPager {
         }
 
         @Override
-        public void onPageScrollStateChanged(int state) {
+        public void onPageScrollStateChanged(final int state) {
             if (state == SCROLL_STATE_IDLE) {
                 return;
             }
@@ -64,11 +64,11 @@ public class MaterialScrollingViewPager extends ViewPager {
         }
     };
 
-    public MaterialScrollingViewPager(Context context) {
+    public MaterialScrollingViewPager(final Context context) {
         this(context, null);
     }
 
-    public MaterialScrollingViewPager(Context context, AttributeSet attrs) {
+    public MaterialScrollingViewPager(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         int flexibleHeight = 0;
         int baseHeight = 0;
@@ -98,7 +98,7 @@ public class MaterialScrollingViewPager extends ViewPager {
     }
 
     @Override
-    public void addView(View child, int index, ViewGroup.LayoutParams params) {
+    public void addView(final View child, final int index, final ViewGroup.LayoutParams params) {
         super.addView(child, index, params);
         ObservableRecyclerView recyclerView = Utils.findRecyclerView(child);
         if (recyclerView == null) {
@@ -116,7 +116,7 @@ public class MaterialScrollingViewPager extends ViewPager {
     }
 
     @Override
-    public void removeView(View view) {
+    public void removeView(final View view) {
         if (recyclerViews.containsKey(view)) {
             holders.remove(recyclerViews.get(view));
             recyclerViews.remove(view);
@@ -125,16 +125,16 @@ public class MaterialScrollingViewPager extends ViewPager {
     }
 
     @Override
-    public void setAdapter(PagerAdapter adapter) {
+    public void setAdapter(final PagerAdapter adapter) {
         super.setAdapter(adapter);
         setOffscreenPageLimit(getAdapter().getCount());
     }
 
-    public void addBehavior(View target, Behavior behavior) {
+    public void addBehavior(final View target, final Behavior behavior) {
         behaviorDispatcher.addBehavior(target, behavior);
     }
 
-    private ObservableRecyclerView findRecyclerViewFrom(int position) {
+    private ObservableRecyclerView findRecyclerViewFrom(final int position) {
         final PagerAdapter adapter = getAdapter();
         if (adapter instanceof ContainRecyclerViewPagerAdapter) {
             return ((ContainRecyclerViewPagerAdapter) adapter).getRecyclerView(position);

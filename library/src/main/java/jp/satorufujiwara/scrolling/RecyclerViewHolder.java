@@ -1,15 +1,15 @@
 package jp.satorufujiwara.scrolling;
 
 
-import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
-import com.github.ksoichiro.android.observablescrollview.ScrollState;
-
 import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
+import com.github.ksoichiro.android.observablescrollview.ScrollState;
 
 public class RecyclerViewHolder {
 
@@ -31,11 +31,11 @@ public class RecyclerViewHolder {
         recyclerView.addItemDecoration(new ItemDecorationDelegate(this), 0);
     }
 
-    public void setIsDispatchScroll(boolean enable) {
+    public void setIsDispatchScroll(final boolean enable) {
         isDispatchScroll = enable;
     }
 
-    public void setHeaderSpacer(Spacer spacer) {
+    public void setHeaderSpacer(final Spacer spacer) {
         this.spacer = spacer;
     }
 
@@ -43,14 +43,14 @@ public class RecyclerViewHolder {
         return isDirty ? scrollY : recyclerView.getCurrentScrollY() + flexibleHeight;
     }
 
-    public void scrollTo(int y) {
+    public void scrollTo(final int y) {
         isDirty = true;
         scrollY = y;
         final LinearLayoutManager lm = ((LinearLayoutManager) recyclerView.getLayoutManager());
         lm.scrollToPositionWithOffset(0, -y);
     }
 
-    void onScrolled(int y) {
+    void onScrolled(final int y) {
         isDirty = false;
         if (!isDispatchScroll) {
             return;
@@ -67,34 +67,34 @@ public class RecyclerViewHolder {
         behaviorDispatcher.onDownMotionEvent();
     }
 
-    void onUpOrCancelMotionEvent(ScrollState scrollState) {
+    void onUpOrCancelMotionEvent(final ScrollState scrollState) {
         if (!isDispatchScroll) {
             return;
         }
         behaviorDispatcher.onUpOrCancelMotionEvent(scrollState);
     }
 
-    private boolean onInterceptItemOffset(Rect outRect, View view, RecyclerView parent,
+    private boolean onInterceptItemOffset(final Rect outRect, final View view, final RecyclerView parent,
             RecyclerView.State state) {
         return spacer.getItemOffset(outRect, view, parent, state, flexibleHeight);
     }
 
     public interface Spacer {
 
-        boolean getItemOffset(Rect outRect, View view, RecyclerView parent,
-                RecyclerView.State state, int flexibleHeight);
+        boolean getItemOffset(final Rect outRect, final View view, final RecyclerView parent,
+                              final RecyclerView.State state, final int flexibleHeight);
     }
 
     static class OnScrollDelegate implements ObservableScrollViewCallbacks {
 
         private final RecyclerViewHolder delegate;
 
-        private OnScrollDelegate(RecyclerViewHolder delegate) {
+        private OnScrollDelegate(final RecyclerViewHolder delegate) {
             this.delegate = delegate;
         }
 
         @Override
-        public void onScrollChanged(int scrollY, boolean b, boolean b1) {
+        public void onScrollChanged(final int scrollY, final boolean b, final boolean b1) {
             delegate.onScrolled(scrollY);
         }
 
@@ -104,7 +104,7 @@ public class RecyclerViewHolder {
         }
 
         @Override
-        public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+        public void onUpOrCancelMotionEvent(final ScrollState scrollState) {
             delegate.onUpOrCancelMotionEvent(scrollState);
         }
     }
@@ -113,12 +113,12 @@ public class RecyclerViewHolder {
 
         private final RecyclerViewHolder delegate;
 
-        private ItemDecorationDelegate(RecyclerViewHolder delegate) {
+        private ItemDecorationDelegate(final RecyclerViewHolder delegate) {
             this.delegate = delegate;
         }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+        public void getItemOffsets(final Rect outRect, final View view, final RecyclerView parent,
                 RecyclerView.State state) {
             if (delegate.onInterceptItemOffset(outRect, view, parent, state)) {
                 return;
@@ -130,7 +130,7 @@ public class RecyclerViewHolder {
     static class DefaultSpacer implements Spacer {
 
         @Override
-        public boolean getItemOffset(Rect outRect, View view, RecyclerView parent,
+        public boolean getItemOffset(final Rect outRect, final View view, final RecyclerView parent,
                 RecyclerView.State state, int appBarHeight) {
             final RecyclerView.LayoutManager manager = parent.getLayoutManager();
             if (manager instanceof GridLayoutManager) {

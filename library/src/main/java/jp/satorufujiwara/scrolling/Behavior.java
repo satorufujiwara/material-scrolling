@@ -1,18 +1,18 @@
 package jp.satorufujiwara.scrolling;
 
-import com.github.ksoichiro.android.observablescrollview.ScrollState;
-
 import android.view.View;
+
+import com.github.ksoichiro.android.observablescrollview.ScrollState;
 
 public abstract class Behavior {
 
     private int flexibleHeight;
 
-    void setFlexibleHeight(int flexibleHeight) {
+    void setFlexibleHeight(final int flexibleHeight) {
         this.flexibleHeight = flexibleHeight;
     }
 
-    protected void onAttached(View target) {
+    protected void onAttached(final View target) {
 
     }
 
@@ -20,7 +20,7 @@ public abstract class Behavior {
         return flexibleHeight;
     }
 
-    protected void onScrolled(View target, int scrollY, int dy) {
+    protected void onScrolled(final View target, final int scrollY, final int dy) {
 
     }
 
@@ -28,11 +28,11 @@ public abstract class Behavior {
 
     }
 
-    protected void onUpOrCancelMotionEvent(ScrollState scrollState) {
+    protected void onUpOrCancelMotionEvent(final ScrollState scrollState) {
 
     }
 
-    protected void onGlobalLayout(View target) {
+    protected void onGlobalLayout(final View target) {
 
     }
 }

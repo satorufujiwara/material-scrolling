@@ -1,13 +1,13 @@
 package jp.satorufujiwara.scrolling;
 
-import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 
 public class MaterialScrollingLayout extends FrameLayout {
 
@@ -16,15 +16,15 @@ public class MaterialScrollingLayout extends FrameLayout {
     private final BehaviorDispatcher behaviorDispatcher;
     private RecyclerViewHolder recyclerViewHolder;
 
-    public MaterialScrollingLayout(Context context) {
+    public MaterialScrollingLayout(final Context context) {
         this(context, null, 0);
     }
 
-    public MaterialScrollingLayout(Context context, AttributeSet attrs) {
+    public MaterialScrollingLayout(final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public MaterialScrollingLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MaterialScrollingLayout(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         int flexibleHeight = 0;
         int baseHeight = 0;
@@ -52,7 +52,7 @@ public class MaterialScrollingLayout extends FrameLayout {
     }
 
     @Override
-    public void addView(View child, int index, ViewGroup.LayoutParams params) {
+    public void addView(final View child, final int index, final ViewGroup.LayoutParams params) {
         super.addView(child, index, params);
         ObservableRecyclerView recyclerView = Utils.findRecyclerView(child);
         if (recyclerView == null) {
@@ -64,13 +64,13 @@ public class MaterialScrollingLayout extends FrameLayout {
     }
 
     @Override
-    public void removeView(View view) {
+    public void removeView(final View view) {
         recyclerViewHolder.setIsDispatchScroll(false);
         recyclerViewHolder = null;
         super.removeView(view);
     }
 
-    public void addBehavior(View target, Behavior behavior) {
+    public void addBehavior(final View target, final Behavior behavior) {
         behaviorDispatcher.addBehavior(target, behavior);
     }
 }

@@ -102,7 +102,7 @@ dependencies {
 }
 ```
 
-## Developed By
+# Developed By
 
 Satoru Fujiwara (satorufujiwara)
 * Twitter [satorufujiwara](https://twitter.com/satorufujiwara)
