@@ -8,6 +8,8 @@ material-scrolling
 Android library for [material scrolling techniques](http://www.google.com/design/spec/patterns/scrolling-techniques.html).
 
  ![ViewPager](/arts/viewpager.gif)  ![ImageFab](/arts/imagefab.gif)
+ 
+ ![ViewPagerLand](/arts/viewpager_land.gif)
 
 # Features
 * Easily implement [material scrolling techniques](http://www.google.com/design/spec/patterns/scrolling-techniques.html) with RecyclerView.
