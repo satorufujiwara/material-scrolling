@@ -18,16 +18,16 @@ public class ExitUntilCollapsedBehavior extends Behavior {
     }
 
     @Override
-    protected void onGlobalLayout(View target) {
+    protected void onGlobalLayout(final View target) {
         targetHeight = target.getHeight();
     }
 
     @Override
-    protected void onScrolled(View target, int scrollY, int dy) {
+    protected void onScrolled(final View target, final int scrollY, final int dy) {
         computeTranslation(target, scrollY);
     }
 
-    protected void computeTranslation(View target, int y) {
+    protected void computeTranslation(final View target, final int y) {
         final int h = getFlexibleHeight() - targetHeight - pushUpOffset;
         if (y < h) {
             target.setTranslationY(0);

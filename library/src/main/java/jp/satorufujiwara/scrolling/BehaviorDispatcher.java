@@ -1,12 +1,12 @@
 package jp.satorufujiwara.scrolling;
 
 
-import com.github.ksoichiro.android.observablescrollview.ScrollState;
-
 import android.os.Build;
 import android.support.v4.util.ArrayMap;
 import android.view.View;
 import android.view.ViewTreeObserver;
+
+import com.github.ksoichiro.android.observablescrollview.ScrollState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +31,11 @@ public class BehaviorDispatcher {
         }
     };
 
-    public void onAttachedToWindow(View view) {
+    public void onAttachedToWindow(final View view) {
         view.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
 
-    public void onDetachedFromWindow(View view) {
+    public void onDetachedFromWindow(final View view) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             view.getViewTreeObserver().removeGlobalOnLayoutListener(globalLayoutListener);
         } else {
@@ -43,7 +43,7 @@ public class BehaviorDispatcher {
         }
     }
 
-    public void addBehavior(View target, Behavior behavior) {
+    public void addBehavior(final View target, final Behavior behavior) {
         targets.add(target);
         behavior.setFlexibleHeight(flexibleHeight);
         behaviors.put(target, behavior);
