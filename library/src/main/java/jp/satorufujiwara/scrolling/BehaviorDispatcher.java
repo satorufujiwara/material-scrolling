@@ -1,24 +1,30 @@
 package jp.satorufujiwara.scrolling;
 
 
+import com.github.ksoichiro.android.observablescrollview.ScrollState;
+
 import android.os.Build;
 import android.support.v4.util.ArrayMap;
 import android.view.View;
 import android.view.ViewTreeObserver;
-
-import com.github.ksoichiro.android.observablescrollview.ScrollState;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BehaviorDispatcher {
 
-    private final int flexibleHeight;
     private final List<View> targets = new ArrayList<>();
     private final ArrayMap<View, Behavior> behaviors = new ArrayMap<>();
+    private int flexibleHeight;
 
-    public BehaviorDispatcher(final int flexibleHeight) {
+    public BehaviorDispatcher() {
+    }
+
+    public void setFlexibleHeight(final int flexibleHeight) {
         this.flexibleHeight = flexibleHeight;
+        for (Behavior behavior : behaviors.values()) {
+            behavior.setFlexibleHeight(flexibleHeight);
+        }
     }
 
     private final ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener
