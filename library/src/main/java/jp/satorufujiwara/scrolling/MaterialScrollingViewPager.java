@@ -1,5 +1,7 @@
 package jp.satorufujiwara.scrolling;
 
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v4.util.ArrayMap;
@@ -9,23 +11,22 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
-
 import java.util.Map;
 
 public class MaterialScrollingViewPager extends ViewPager {
 
-    private final int flexibleHeight;
-    private final int baseHeight;
     private final ArrayMap<View, ObservableRecyclerView> recyclerViews = new ArrayMap<>();
     private final Map<ObservableRecyclerView, RecyclerViewHolder> holders = new ArrayMap<>();
-    private final BehaviorDispatcher behaviorDispatcher;
+    private final BehaviorDispatcher behaviorDispatcher = new BehaviorDispatcher();
+    private int flexibleHeight;
+    private int baseHeight;
     private RecyclerViewHolder activeHolder;
     private boolean isFirstRecyclerView = true;
 
     private final OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
         @Override
-        public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
+        public void onPageScrolled(final int position, final float positionOffset,
+                final int positionOffsetPixels) {
             // no op
         }
 
@@ -80,7 +81,7 @@ public class MaterialScrollingViewPager extends ViewPager {
         a.recycle();
         this.flexibleHeight = flexibleHeight;
         this.baseHeight = baseHeight;
-        behaviorDispatcher = new BehaviorDispatcher(flexibleHeight);
+        behaviorDispatcher.setFlexibleHeight(flexibleHeight);
     }
 
     @Override
@@ -104,8 +105,8 @@ public class MaterialScrollingViewPager extends ViewPager {
         if (recyclerView == null) {
             return;
         }
-        RecyclerViewHolder holder = new RecyclerViewHolder(flexibleHeight, recyclerView,
-                behaviorDispatcher);
+        RecyclerViewHolder holder = new RecyclerViewHolder(recyclerView, behaviorDispatcher);
+        holder.setFlexibleHeight(flexibleHeight);
         if (isFirstRecyclerView) {
             activeHolder = holder;
         }
@@ -132,6 +133,18 @@ public class MaterialScrollingViewPager extends ViewPager {
 
     public void addBehavior(final View target, final Behavior behavior) {
         behaviorDispatcher.addBehavior(target, behavior);
+    }
+
+    public void setFlexibleHeight(final int flexibleHeight) {
+        this.flexibleHeight = flexibleHeight;
+        behaviorDispatcher.setFlexibleHeight(flexibleHeight);
+        for (RecyclerViewHolder holder : holders.values()) {
+            holder.setFlexibleHeight(flexibleHeight);
+        }
+    }
+
+    public void setBaseHeight(final int baseHeight) {
+        this.baseHeight = baseHeight;
     }
 
     private ObservableRecyclerView findRecyclerViewFrom(final int position) {

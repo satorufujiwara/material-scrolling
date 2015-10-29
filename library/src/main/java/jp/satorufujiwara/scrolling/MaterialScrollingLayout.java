@@ -1,5 +1,7 @@
 package jp.satorufujiwara.scrolling;
 
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -7,13 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
-
 public class MaterialScrollingLayout extends FrameLayout {
 
-    private final int flexibleHeight;
-    private final int baseHeight;
-    private final BehaviorDispatcher behaviorDispatcher;
+    private int flexibleHeight;
+    private final BehaviorDispatcher behaviorDispatcher = new BehaviorDispatcher();
     private RecyclerViewHolder recyclerViewHolder;
 
     public MaterialScrollingLayout(final Context context) {
@@ -24,19 +23,16 @@ public class MaterialScrollingLayout extends FrameLayout {
         this(context, attrs, 0);
     }
 
-    public MaterialScrollingLayout(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    public MaterialScrollingLayout(final Context context, final AttributeSet attrs,
+            final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         int flexibleHeight = 0;
-        int baseHeight = 0;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ms_MaterialScrolling);
         flexibleHeight = a.getDimensionPixelSize(
                 R.styleable.ms_MaterialScrolling_ms_flexible_height, flexibleHeight);
-        baseHeight = a.getDimensionPixelSize(
-                R.styleable.ms_MaterialScrolling_ms_base_height, baseHeight);
         a.recycle();
         this.flexibleHeight = flexibleHeight;
-        this.baseHeight = baseHeight;
-        behaviorDispatcher = new BehaviorDispatcher(flexibleHeight);
+        behaviorDispatcher.setFlexibleHeight(flexibleHeight);
     }
 
     @Override
@@ -58,8 +54,8 @@ public class MaterialScrollingLayout extends FrameLayout {
         if (recyclerView == null) {
             return;
         }
-        recyclerViewHolder = new RecyclerViewHolder(flexibleHeight, recyclerView,
-                behaviorDispatcher);
+        recyclerViewHolder = new RecyclerViewHolder(recyclerView, behaviorDispatcher);
+        recyclerViewHolder.setFlexibleHeight(flexibleHeight);
         recyclerViewHolder.setIsDispatchScroll(true);
     }
 
@@ -72,5 +68,11 @@ public class MaterialScrollingLayout extends FrameLayout {
 
     public void addBehavior(final View target, final Behavior behavior) {
         behaviorDispatcher.addBehavior(target, behavior);
+    }
+
+    public void setFlexibleHeight(final int flexibleHeight) {
+        this.flexibleHeight = flexibleHeight;
+        behaviorDispatcher.setFlexibleHeight(flexibleHeight);
+        recyclerViewHolder.setFlexibleHeight(flexibleHeight);
     }
 }
