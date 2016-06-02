@@ -8,6 +8,7 @@ import android.support.v4.util.ArrayMap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,7 +22,7 @@ public class MaterialScrollingViewPager extends ViewPager {
     private int flexibleHeight;
     private int baseHeight;
     private RecyclerViewHolder activeHolder;
-    private boolean isFirstRecyclerView = true;
+    private boolean isFirstTouch = true;
 
     private final OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
         @Override
@@ -107,11 +108,6 @@ public class MaterialScrollingViewPager extends ViewPager {
         }
         RecyclerViewHolder holder = new RecyclerViewHolder(recyclerView, behaviorDispatcher);
         holder.setFlexibleHeight(flexibleHeight);
-        if (isFirstRecyclerView) {
-            activeHolder = holder;
-        }
-        holder.setIsDispatchScroll(isFirstRecyclerView);
-        isFirstRecyclerView = false;
         recyclerViews.put(child, recyclerView);
         holders.put(recyclerView, holder);
     }
@@ -129,6 +125,19 @@ public class MaterialScrollingViewPager extends ViewPager {
     public void setAdapter(final PagerAdapter adapter) {
         super.setAdapter(adapter);
         setOffscreenPageLimit(getAdapter().getCount());
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (isFirstTouch) {
+            final RecyclerViewHolder holder = holders.get(findRecyclerViewFrom(getCurrentItem()));
+            if (holder != null) {
+                holder.setIsDispatchScroll(true);
+                activeHolder = holder;
+            }
+            isFirstTouch = false;
+        }
+        return super.onInterceptTouchEvent(ev);
     }
 
     public void addBehavior(final View target, final Behavior behavior) {
