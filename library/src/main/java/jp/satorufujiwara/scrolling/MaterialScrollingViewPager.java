@@ -22,7 +22,7 @@ public class MaterialScrollingViewPager extends ViewPager {
     private int flexibleHeight;
     private int baseHeight;
     private RecyclerViewHolder activeHolder;
-    private boolean isFirstTouch = true;
+    private boolean isFirst = true;
 
     private final OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
         @Override
@@ -47,6 +47,7 @@ public class MaterialScrollingViewPager extends ViewPager {
 
         @Override
         public void onPageScrollStateChanged(final int state) {
+            findFirstActiveRecyclerView();
             if (state == SCROLL_STATE_IDLE) {
                 return;
             }
@@ -129,14 +130,7 @@ public class MaterialScrollingViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (isFirstTouch) {
-            final RecyclerViewHolder holder = holders.get(findRecyclerViewFrom(getCurrentItem()));
-            if (holder != null) {
-                holder.setIsDispatchScroll(true);
-                activeHolder = holder;
-            }
-            isFirstTouch = false;
-        }
+        findFirstActiveRecyclerView();
         return super.onInterceptTouchEvent(ev);
     }
 
@@ -154,6 +148,18 @@ public class MaterialScrollingViewPager extends ViewPager {
 
     public void setBaseHeight(final int baseHeight) {
         this.baseHeight = baseHeight;
+    }
+
+    private void findFirstActiveRecyclerView() {
+        if (!isFirst) {
+            return;
+        }
+        final RecyclerViewHolder holder = holders.get(findRecyclerViewFrom(getCurrentItem()));
+        if (holder != null) {
+            holder.setIsDispatchScroll(true);
+            activeHolder = holder;
+        }
+        isFirst = false;
     }
 
     private ObservableRecyclerView findRecyclerViewFrom(final int position) {
