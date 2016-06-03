@@ -8,6 +8,7 @@ import android.support.v4.util.ArrayMap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,7 +22,7 @@ public class MaterialScrollingViewPager extends ViewPager {
     private int flexibleHeight;
     private int baseHeight;
     private RecyclerViewHolder activeHolder;
-    private boolean isFirstRecyclerView = true;
+    private boolean isFirst = true;
 
     private final OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
         @Override
@@ -46,6 +47,7 @@ public class MaterialScrollingViewPager extends ViewPager {
 
         @Override
         public void onPageScrollStateChanged(final int state) {
+            findFirstActiveRecyclerView();
             if (state == SCROLL_STATE_IDLE) {
                 return;
             }
@@ -107,11 +109,6 @@ public class MaterialScrollingViewPager extends ViewPager {
         }
         RecyclerViewHolder holder = new RecyclerViewHolder(recyclerView, behaviorDispatcher);
         holder.setFlexibleHeight(flexibleHeight);
-        if (isFirstRecyclerView) {
-            activeHolder = holder;
-        }
-        holder.setIsDispatchScroll(isFirstRecyclerView);
-        isFirstRecyclerView = false;
         recyclerViews.put(child, recyclerView);
         holders.put(recyclerView, holder);
     }
@@ -131,6 +128,12 @@ public class MaterialScrollingViewPager extends ViewPager {
         setOffscreenPageLimit(getAdapter().getCount());
     }
 
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        findFirstActiveRecyclerView();
+        return super.onInterceptTouchEvent(ev);
+    }
+
     public void addBehavior(final View target, final Behavior behavior) {
         behaviorDispatcher.addBehavior(target, behavior);
     }
@@ -145,6 +148,18 @@ public class MaterialScrollingViewPager extends ViewPager {
 
     public void setBaseHeight(final int baseHeight) {
         this.baseHeight = baseHeight;
+    }
+
+    private void findFirstActiveRecyclerView() {
+        if (!isFirst) {
+            return;
+        }
+        final RecyclerViewHolder holder = holders.get(findRecyclerViewFrom(getCurrentItem()));
+        if (holder != null) {
+            holder.setIsDispatchScroll(true);
+            activeHolder = holder;
+        }
+        isFirst = false;
     }
 
     private ObservableRecyclerView findRecyclerViewFrom(final int position) {

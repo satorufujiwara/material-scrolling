@@ -50,14 +50,14 @@ public class TabViewPagerActivity extends AppCompatActivity {
         setSupportActionBar(toolBar);
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-        viewPager.setAdapter(
-                new FragmentPagerItemAdapter.Builder(this)
-                        .add(R.string.tab1, TabViewPagerFragment.class)
-                        .add(R.string.tab2, TabViewPagerFragment.class)
-                        .add(R.string.tab3, TabViewPagerFragment.class)
-                        .add(R.string.tab4, TabViewPagerFragment.class)
-                        .add(R.string.tab5, TabViewPagerFragment.class)
-                        .build());
+        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter.Builder(this)
+                .add(R.string.tab1, TabViewPagerFragment.class)
+                .add(R.string.tab2, TabViewPagerFragment.class)
+                .add(R.string.tab3, TabViewPagerFragment.class)
+                .add(R.string.tab4, TabViewPagerFragment.class)
+                .add(R.string.tab5, TabViewPagerFragment.class)
+                .build();
+        viewPager.setAdapter(adapter);
         tabLayout.setViewPager(viewPager);
         viewPager.addBehavior(bgImage, new ParallaxBehavior());
         viewPager.addBehavior(tabLayout, new ScrollUntilBehavior(0));
